@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "630653283925",
+    "project_id": "ushan-gallage-first",
+    "storage_bucket": "ushan-gallage-first.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630653283925:android:dad40fe85200bdcd036edc",
+        "android_client_info": {
+          "package_name": "com.ushan_gallage_first"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630653283925-f4pnojg2ac4q0jt9p3cs1iioikog08nf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ushan_gallage_first",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "630653283925-8dq96en0hbmc1knqf8aqiq7j8phldlsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdv9aJy865ZKAPuCMSWPqCeu1Q-pkemRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630653283925-8dq96en0hbmc1knqf8aqiq7j8phldlsj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
