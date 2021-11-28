@@ -1,22 +1,15 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
-import Signup from './Signup';
-import Signin from './Signin';
-import Firestore from './Firestore';
-import Loadall from './Loadall';
-import Upload from './Upload';
-import AppNavigator from './AppNavigator';
+import React from 'react';
+
+import HomeStackNavigator from './navigation/Navigator';
+import {NavigationContainer} from '@react-navigation/native';
+
+ 
 
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-  render() {
-    return (  
-      <AppNavigator/>
-    )
-  }
+export default function App(){
+  return(
+    <NavigationContainer>
+      <HomeStackNavigator/>
+    </NavigationContainer>
+  );
 }

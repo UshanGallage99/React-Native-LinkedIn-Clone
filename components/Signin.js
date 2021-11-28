@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { TextInput,Button } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin,  GoogleSigninButton } from '@react-native-google-signin/google-signin';
@@ -41,7 +41,7 @@ export default class Signin extends Component {
     render() {
         return (
             <View>
-                <Text style={styles.label}> Signin </Text>
+                <Text style={styles.label}> Signin </Text> 
                 <TextInput
                 style={styles.input}
                     label="Enter Your Email"

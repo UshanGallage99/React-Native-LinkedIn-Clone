@@ -53,7 +53,17 @@ export default class Upload extends Component {
                 <Button style={{ width: 200, marginTop: 50 }} mode="contained" onPress={this.getimageFromGallery}>
                     Press me
                 </Button>
-                
+                <View>
+                <Image
+                 resizeMode='contain'
+                 style={{
+                 width: 200, 
+                 position: 'absolute',
+                 top:10,
+                 }}
+                  source={require('../assets/Linkedin-Logo.png')}/>
+               
+                </View>
             </View>
         );
     }
