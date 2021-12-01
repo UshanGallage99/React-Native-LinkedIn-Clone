@@ -18,7 +18,11 @@ export default function HomeStackNavigator() {
         <Stack.Navigator screenOptions={screenOptionStyle}>
  
             <Stack.Screen name='Signin' component={Signin} />
- 
+            <Stack.Screen name='Signup' component={Signup} />
+            
+            {/* <Stack.Screen name='Firestore' component={Firestore} />*/}
+         {/* <Stack.Screen name='Loadall' component={Loadall} /> */}
+            {/* <Stack.Screen name='Upload' component={Upload} />   */}
         </Stack.Navigator>
     );
 }
