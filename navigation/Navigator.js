@@ -6,6 +6,7 @@ import Signin from '../components/Signin';
 import Firestore from '../components/Firestore';
 import Loadall from '../components/Loadall';
 import Upload from '../components/Upload';
+import SplashScreen from '../components/SplashScreen';
 
 const Stack = createStackNavigator();
 
@@ -16,12 +17,12 @@ const screenOptionStyle = {
 export default function HomeStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
- 
+
+            <Stack.Screen name='SplashScreen' component={SplashScreen} />  
             <Stack.Screen name='Signin' component={Signin} />
-            <Stack.Screen name='Signup' component={Signup} />
-            
+            <Stack.Screen name='Signup' component={Signup} /> 
             {/* <Stack.Screen name='Firestore' component={Firestore} />*/}
-         {/* <Stack.Screen name='Loadall' component={Loadall} /> */}
+            {/* <Stack.Screen name='Loadall' component={Loadall} /> */}
             {/* <Stack.Screen name='Upload' component={Upload} />   */}
         </Stack.Navigator>
     );
