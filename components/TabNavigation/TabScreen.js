@@ -39,7 +39,7 @@ export default class TabScreen extends Component {
           ),
         }}/>
       <Tab.Screen name="MyNetwork" component={MyNetworkScreen} options={{
-          tabBarLabel: 'MyNetwork',headerShown: false,
+          tabBarLabel: 'MyNetwork',headerShown: false, 
           tabBarIcon: ({ color, size }) => (
             <AwesomeIcon  name="user-friends" color={color} size={size} />
           ),

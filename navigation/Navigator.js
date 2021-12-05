@@ -19,9 +19,9 @@ export default function HomeStackNavigator() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
 
-            {/* <Stack.Screen name='SplashScreen' component={SplashScreen} />  
-            <Stack.Screen name='Signin' component={Signin} />
-            <Stack.Screen name='Signup' component={Signup} />  */}
+            {/* <Stack.Screen name='SplashScreen' component={SplashScreen} />    */}
+            {/* <Stack.Screen name='Signin' component={Signin} /> */}
+            {/* <Stack.Screen name='Signup' component={Signup} />    */}
             <Stack.Screen name='TabScreen' component={TabScreen} /> 
             {/* <Stack.Screen name='Firestore' component={Firestore} />*/}
             {/* <Stack.Screen name='Loadall' component={Loadall} /> */}

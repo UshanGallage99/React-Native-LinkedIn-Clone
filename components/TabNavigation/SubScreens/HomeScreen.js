@@ -1,22 +1,44 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView, StatusBar, FlatList } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
 import { Searchbar, Button } from 'react-native-paper';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
+import firestore from '@react-native-firebase/firestore';
 
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        searchQuery:''
+      data: []
     };
   }
 
-  onChangeSearch(query) {
-    setSearchQuery(query);
+  componentDidMount() {
+    const subscriber = firestore()
+        .collection('customers')
+        .onSnapshot(querySnapshot => {
+            const customers = [];
+
+            querySnapshot.forEach(documentSnapshot => {
+                customers.push({
+                    name: documentSnapshot.data().name,
+                    address: documentSnapshot.data().address,
+                    key: documentSnapshot.id,
+                });
+            });
+
+            this.setState({
+                data: customers
+            })
+        });
 }
 
+   
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.view}>
@@ -24,22 +46,26 @@ export default class HomeScreen extends Component {
         style={styles.img1}
         source={require('../SubScreens/user.png')} 
         />
+       
         <Searchbar
         style={styles.searchbar}
         placeholder="Search"
         onChangeText={this.onChangeSearch}
         value={this.state.searchQuery} 
-        /> 
-        <AwesomeIcon style={styles.icon1}  name="comment-dots"  color={'#666666'} size={30} />
+        />   
+        <AwesomeIcon style={styles.icon1}  name="comment-dots"  color={'#666666'} size={25} />
         </View>
-        <ScrollView>
+        <FlatList
+        data={this.state.data}
+        renderItem={({ item }) => (
           <View style={styles.view1}>
           <Image
-          style={styles.img1}
+          style={styles.userimg}
           source={require('../SubScreens/user.png')} 
           />
-          <Text style={styles.txt1}>User User</Text>
-          <Text style={styles.txt2}>samplesample samplesample samplesample samplesample sample samplesample sample</Text>
+          <Text style={styles.txt1}>{item.name}</Text>
+          <FeatherIcon style={styles.icon2}  name="more-vertical"  color={'#666666'} size={21} />
+          <Text style={styles.txt2}> {item.address}</Text>
           <Image
           style={styles.img2}
           source={require('../SubScreens/banner1.png')}
@@ -47,118 +73,27 @@ export default class HomeScreen extends Component {
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
           </View>
-          <Image
-          style={styles.like}
-          source={require('../SubScreens/like.png')} 
+          <AwesomeIcon
+          style={styles.like}  name="thumbs-up" color={'#666666'} size={21}         
           />
-          <Image
+          <AwesomeIcon
           style={styles.comment}
-          source={require('../SubScreens/comments.png')} 
+          name="comment" color={'#666666'} size={21}
           />
-          <Image
+          <AwesomeIcon
           style={styles.share}
-          source={require('../SubScreens/share.png')} 
+          name="share-square" color={'#666666'} size={21}
           />
-          <Image
+          <AwesomeIcon
           style={styles.send}
-          source={require('../SubScreens/send.png')} 
+          name="paper-plane" color={'#666666'} size={21}
           /> 
           </View>
-          <View style={styles.view1}>
-          <Image
-          style={styles.img1}
-          source={require('../SubScreens/user.png')} 
-          />
-          <Text style={styles.txt1}>User User</Text>
-          <Text style={styles.txt2}>samplesample samplesample samplesample samplesample sample samplesample sample</Text>
-          <Image
-          style={styles.img2}
-          source={require('../SubScreens/banner1.png')}
-          />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
-          </View>
-          <Image
-          style={styles.like}
-          source={require('../SubScreens/like.png')} 
-          />
-          <Image
-          style={styles.comment}
-          source={require('../SubScreens/comments.png')} 
-          />
-          <Image
-          style={styles.share}
-          source={require('../SubScreens/share.png')} 
-          />
-          <Image
-          style={styles.send}
-          source={require('../SubScreens/send.png')} 
-          /> 
-          </View>
-          <View style={styles.view1}>
-          <Image
-          style={styles.img1}
-          source={require('../SubScreens/user.png')} 
-          />
-          <Text style={styles.txt1}>User User</Text>
-          <Text style={styles.txt2}>samplesample samplesample samplesample samplesample sample samplesample sample</Text>
-          <Image
-          style={styles.img2}
-          source={require('../SubScreens/banner1.png')}
-          />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
-          </View>
-          <Image
-          style={styles.like}
-          source={require('../SubScreens/like.png')} 
-          />
-          <Image
-          style={styles.comment}
-          source={require('../SubScreens/comments.png')} 
-          />
-          <Image
-          style={styles.share}
-          source={require('../SubScreens/share.png')} 
-          />
-          <Image
-          style={styles.send}
-          source={require('../SubScreens/send.png')} 
-          /> 
-          </View>
-          <View style={styles.view1}>
-          <Image
-          style={styles.img1}
-          source={require('../SubScreens/user.png')} 
-          />
-          <Text style={styles.txt1}>User User</Text>
-          <Text style={styles.txt2}>samplesample samplesample samplesample samplesample sample samplesample sample</Text>
-          <Image
-          style={styles.img2}
-          source={require('../SubScreens/banner1.png')}
-          />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
-          </View>
-          <Image
-          style={styles.like}
-          source={require('../SubScreens/like.png')} 
-          />
-          <Image
-          style={styles.comment}
-          source={require('../SubScreens/comments.png')} 
-          />
-          <Image
-          style={styles.share}
-          source={require('../SubScreens/share.png')} 
-          />
-          <Image
-          style={styles.send}
-          source={require('../SubScreens/send.png')} 
-          /> 
-          </View>
-          
-        </ScrollView>
+         )}
+         keyExtractor={(item) => {
+             item.key
+         }}
+      />
       </SafeAreaView>
     );
   }
@@ -186,44 +121,57 @@ const styles = StyleSheet.create({
           width:30,
           height:30
       },
-      like:{
+      userimg:{
         marginTop:10,
+          marginLeft:10,
+          width:35,
+          height:35
+      },
+      like:{
+        marginTop:8,
         marginLeft:30,
-        width:20,
-        height:20
+        
       },
       comment:{
-        marginTop:-22,
-        marginLeft:130,
-        width:20,
-        height:20
+        marginTop:-23,
+        marginLeft:135,
+       
       },
       share:{
-        marginTop:-20,
+        marginTop:-23,
         marginLeft:250,
-        width:20,
-        height:20
+         
       },
       send:{
-        marginTop:-17,
+        marginTop:-20,
         marginLeft:350,
-        width:20,
-        height:20
+         
       },
       searchbar:{
-          width:280,
+          backgroundColor: '#EEF3F7',
+          width:295,
           height: 40,
           marginLeft:60,
-          marginTop:-34
+          marginTop:-35
       },
-      icon1:{
-         marginLeft:360,
-         marginTop:-37,
+      qr:{
+         marginLeft:330,
+         marginTop:-35,
           
       },
+      icon1:{
+         marginLeft:375,
+         marginTop:-35,
+          
+      },
+      icon2:{
+        marginLeft:380,
+        marginTop:-20,
+         
+     },
       txt1:{
-        marginLeft:50,
-        marginTop:-30,
+        marginLeft:53,
+        marginTop:-33,
         fontSize:15,
         color:'#202124',
       },
