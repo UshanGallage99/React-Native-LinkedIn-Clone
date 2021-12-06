@@ -23,7 +23,7 @@ export default function HomeStackNavigator() {
             {/* <Stack.Screen name='Signin' component={Signin} /> */}
             {/* <Stack.Screen name='Signup' component={Signup} />    */}
             <Stack.Screen name='TabScreen' component={TabScreen} /> 
-            {/* <Stack.Screen name='Firestore' component={Firestore} />*/}
+            {/* <Stack.Screen name='Firestore' component={Firestore} /> */}
             {/* <Stack.Screen name='Loadall' component={Loadall} /> */}
             {/* <Stack.Screen name='Upload' component={Upload} />   */}
         </Stack.Navigator>

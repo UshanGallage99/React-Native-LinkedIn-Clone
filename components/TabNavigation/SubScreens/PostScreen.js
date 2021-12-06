@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView, StatusBar, TouchableOpacity, TextInput } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
 import { Searchbar, Button } from 'react-native-paper';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
@@ -39,33 +39,19 @@ export default class PostScreen extends Component {
           source={require('../SubScreens/user.png')} 
           />
           <Text style={styles.txt1}>User User</Text>
-          <FeatherIcon style={styles.icon2}  name="more-vertical"  color={'#666666'} size={21} />
-          <Text style={styles.txt2}>samplesample samplesample samplesample samplesample sample samplesample sample</Text>
-          <Image
-          style={styles.img2}
-          source={require('../SubScreens/banner1.png')}
-          />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
+          <View style={styles.public}>
+          <AwesomeIcon style={styles.worldicn} name="globe-americas"  color={'#666666'} size={15}/>
+          <Text style={styles.anyone}>
+          Anyone
+          </Text>
+          <AwesomeIcon style={styles.arrowicn} name="caret-down"  color={'#666666'} size={15}/>
           </View>
-          <AwesomeIcon
-          style={styles.like}  name="thumbs-up" color={'#666666'} size={21}         
-          />
-          <AwesomeIcon
-          style={styles.comment}
-          name="comment" color={'#666666'} size={21}
-          />
-          <AwesomeIcon
-          style={styles.share}
-          name="share-square" color={'#666666'} size={21}
-          />
-          <AwesomeIcon
-          style={styles.send}
-          name="paper-plane" color={'#666666'} size={21}
-          /> 
-          </View>
-        
-          
+          <TextInput
+            multiline={true}
+            numberOfLines={10}
+            placeholder= 'What do you want to talk about?'
+            style={styles.txt2}/>
+          </View> 
         </ScrollView>
       </SafeAreaView>
     );
@@ -97,11 +83,32 @@ const styles = StyleSheet.create({
           marginTop:13,
           marginLeft:12    
       },
+      public:{
+        marginTop:6,
+        marginLeft:62,
+        borderWidth: 1,
+        borderColor: "#666666",  
+        width: 100,
+        // height: 20,
+        borderRadius: 10
+      },
+      worldicn:{
+        marginLeft:2,
+      },
+      anyone:{
+        fontSize:15,
+        marginTop:-20,
+        marginLeft:20  
+      },
+      arrowicn:{
+        marginTop:-17,
+        marginLeft:80
+    },
       userimg:{
         marginTop:5,
         marginLeft:15,
-        width:35,
-        height:35
+        width:45,
+        height:45
       },
       like:{
         marginTop:8,
@@ -151,8 +158,8 @@ const styles = StyleSheet.create({
          
      },
       txt1:{
-        marginLeft:60,
-        marginTop:-38,
+        marginLeft:65,
+        marginTop:-45,
         fontSize:15,
         color:'#202124',
       },
@@ -163,11 +170,13 @@ const styles = StyleSheet.create({
         alignSelf:'center'
       },
       txt2:{
-        marginLeft:15,
+        marginLeft:12,
         marginRight:10,
-        marginTop:20,
-        fontSize:13,
+        marginTop:22,
+        fontSize:15,
         color:'#202124',
+        height:200, 
+        textAlignVertical: 'top',
       },
       btn1:{
         marginTop:10,
