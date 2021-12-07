@@ -6,13 +6,37 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import FontistoIcon from 'react-native-vector-icons/Fontisto';
-
+import RBSheet from "react-native-raw-bottom-sheet";
+import ImagePicker from 'react-native-image-crop-picker';
+import { utils } from '@react-native-firebase/app';
+import storage from '@react-native-firebase/storage';
 export default class PostScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      imagePath: '',
+      imageName: '',
+      imageUrl: ''
     };
   }
+
+  getimageFromGallery = () => {
+            ImagePicker.openPicker({
+                width: 300,
+                height: 400,
+                cropping: true
+            }).then(image => {
+                console.log(image);
+                this.setState({
+                    imagePath: image.path
+                }) 
+                this.setState({
+                    imageName: image.modificationDate
+                })
+    
+                // this.UploadImage()
+            });
+        }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -32,7 +56,7 @@ export default class PostScreen extends Component {
            post
         </Text>  
         </View>
-        <ScrollView>
+        <ScrollView >
           <View style={styles.view1}>
           <Image
           style={styles.userimg}
@@ -48,11 +72,159 @@ export default class PostScreen extends Component {
           </View>
           <TextInput
             multiline={true}
-            numberOfLines={10}
+            numberOfLines={5}
             placeholder= 'What do you want to talk about?'
             style={styles.txt2}/>
+          {/* <Image
+            style={styles.img2}
+            source={require('../SubScreens/user.png')}
+          /> */}
           </View> 
         </ScrollView>
+
+        <View style={styles.viewbottom}> 
+        <TouchableOpacity onPress={() => this.RBSheet.open()}>
+        <AwesomeIcon style={styles.cameraicn} name="camera"  color={'#666666'} size={22}/>
+        <AwesomeIcon style={styles.videoicn} name="video"  color={'#666666'} size={22}/>
+        <AwesomeIcon style={styles.imageicn} name="image"  color={'#666666'} size={22}/>
+        <FeatherIcon style={styles.moreicn}  name="more-horizontal"  color={'#666666'} size={22} />
+        <AwesomeIcon style={styles.commenticn} name="comment"  color={'#666666'} size={18}/> 
+        <Text style={styles.anyonetwo}>
+          Anyone
+        </Text>
+
+        <RBSheet
+          ref={ref => {
+            this.RBSheet = ref;
+          }}
+          height={430}
+          openDuration={250}
+          closeOnDragDown= 'true'
+          customStyles={{
+            container: {
+              // justifyContent: "center",
+              // alignItems: "center"
+            }
+          }}
+        >
+        <TouchableOpacity onPress={this.getimageFromGallery}>   
+        <View style={{ 
+            flexDirection: "row",
+            paddingTop: 18,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10,   
+        }}>
+          
+          <AwesomeIcon name="image"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Add a photo</Text>   
+        </View>
+        </TouchableOpacity>
+
+        <View style={{
+          // marginLeft:5,
+            flexDirection: "row",
+            paddingTop: 15,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10, 
+        }}>
+          <AwesomeIcon name="video"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Take a video</Text>    
+        </View>
+        <View style={{
+          // marginLeft:40,
+            flexDirection: "row",
+            paddingTop: 15,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10,   
+        }}>
+          <AwesomeIcon name="certificate"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Celebrate an occasion</Text>    
+        </View>
+        <View style={{
+            flexDirection: "row",
+            paddingTop: 15,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10,   
+        }}>
+          <AwesomeIcon name="file-alt"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Add a document</Text>    
+        </View>
+        <View style={{
+          // marginLeft:5,
+            flexDirection: "row",
+            paddingTop: 15,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10,
+        }}>
+          <AwesomeIcon name="briefcase"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Share that you're hiring</Text>    
+        </View>
+        <View style={{
+          // marginLeft:1,
+            flexDirection: "row",
+            paddingTop: 15,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10,  
+        }}>
+          <AwesomeIcon name="stamp"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Find an expert</Text>    
+        </View>
+        <View style={{
+          // marginLeft:1,
+            flexDirection: "row",
+            paddingTop: 15,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10,   
+        }}>
+          <AwesomeIcon name="chart-bar"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Create a poll</Text>    
+        </View>
+        <View style={{ 
+            // marginLeft:1,
+            flexDirection: "row",
+            paddingTop: 15,
+            paddingBottom: 12,
+            paddingLeft: 8,
+            paddingRight: 10,
+              
+        }}>
+          <AwesomeIcon name="calendar"  color={'#666666'} size={22}/>
+            <Text style={{
+                    fontSize: 16,
+                    color: "black"
+                }}>  Create an event</Text>    
+        </View>
+        </RBSheet>
+        </TouchableOpacity> 
+        </View>
       </SafeAreaView>
     );
   }
@@ -74,34 +246,65 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 5,
       },
+      viewbottom:{
+        backgroundColor:'#FFFFFF',
+        height:51,
+      },
       view1:{
         marginTop:18,
         backgroundColor:'#FFFFFF',
-        height:460
+        height:760,
       },
       img1:{
           marginTop:13,
           marginLeft:12    
       },
+      cameraicn:{
+        marginTop:13,
+        marginLeft:12    
+      },
+      videoicn:{
+        marginTop:-22,
+        marginLeft:60    
+      },
+      imageicn:{
+        marginTop:-23,
+        marginLeft:110    
+      },
+      moreicn:{
+        marginTop:-24,
+        marginLeft:160    
+      },
+      commenticn:{
+        marginTop:-19,
+        marginLeft:325    
+      },
+      anyonetwo:{
+        fontSize:13,
+        marginTop:-19,
+        marginLeft:350  
+      },
       public:{
         marginTop:6,
-        marginLeft:62,
-        borderWidth: 1,
+        marginLeft:67 ,
+        borderWidth: 2,
         borderColor: "#666666",  
         width: 100,
-        // height: 20,
-        borderRadius: 10
+        height: 23,
+        borderRadius: 25
       },
       worldicn:{
+        marginTop:1,
         marginLeft:2,
       },
       anyone:{
         fontSize:15,
-        marginTop:-20,
+        marginTop:-19,
         marginLeft:20  
       },
+
       arrowicn:{
-        marginTop:-17,
+        marginTop:-18,
         marginLeft:80
     },
       userimg:{
@@ -158,16 +361,17 @@ const styles = StyleSheet.create({
          
      },
       txt1:{
-        marginLeft:65,
+        marginLeft:72,
         marginTop:-45,
         fontSize:15,
         color:'#202124',
       },
       img2:{
-        marginTop:10,
+        marginTop:15,
         width: '100%',
-        height:'70%',
+        height: 410,
         alignSelf:'center'
+        
       },
       txt2:{
         marginLeft:12,
@@ -175,8 +379,9 @@ const styles = StyleSheet.create({
         marginTop:22,
         fontSize:15,
         color:'#202124',
-        height:200, 
+        height:100, 
         textAlignVertical: 'top',
+         
       },
       btn1:{
         marginTop:10,
