@@ -10,14 +10,32 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import ImagePicker from 'react-native-image-crop-picker';
 import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default class PostScreen extends Component {
   constructor(props) {
     super(props);
+    this.getData()
     this.state = {
+      name: '',
       imagePath: '',
       imageName: '',
       imageUrl: ''
     };
+  }
+
+  componentDidMount() {
+    this.getData()
+  }
+
+  getData = async () => {
+    try { 
+      const name = await AsyncStorage.getItem('name')
+      console.log("Active User " + name);
+      this.setState({ name: name })
+ 
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   getimageFromGallery = () => {
@@ -62,7 +80,7 @@ export default class PostScreen extends Component {
           style={styles.userimg}
           source={require('../SubScreens/user.png')} 
           />
-          <Text style={styles.txt1}>User User</Text>
+          <Text style={styles.txt1}>{this.state.name}</Text>
           <View style={styles.public}>
           <AwesomeIcon style={styles.worldicn} name="globe-americas"  color={'#666666'} size={15}/>
           <Text style={styles.anyone}>

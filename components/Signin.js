@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Alert} from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { Input } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
  
 
 
@@ -19,15 +20,24 @@ export default class Signin extends Component {
             password: ''
         };
     }
+
+    clearText = () => {
+        this.setState({ email: '' })
+        this.setState({ password: '' })
+    }
   
     userLogin = () => {
         auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((user) => {
                 console.log(user);
-                console.log('User loged in!');
+                this.clearText();
+                console.log('User loged in!'); 
+                AsyncStorage.setItem('name', user.displayName);
+                this.props.navigation.navigate('TabScreen')  
             })
             .catch(error => {
+                Alert.alert('Please check your email & password !')
                 console.log('Login unsuccessfull !');
             });
     }
@@ -41,6 +51,13 @@ export default class Signin extends Component {
         // Sign-in the user with the credential
         const user = auth().signInWithCredential(googleCredential);
         console.log((await user).user);
+        console.log('User loged in!'); 
+        if ((await user).user.displayName != null) {
+            await AsyncStorage.setItem('name', (await user).user.displayName);
+            this.props.navigation.navigate('TabScreen')
+            console.log((await user).user.displayName);
+          } else {
+        }
     }
     render() {
         const { navigate } = this.props.navigation;
@@ -69,6 +86,7 @@ export default class Signin extends Component {
                     )} />
                 <Input
                     placeholder="Password"
+                    secureTextEntry={true}
                     value={this.state.password}
                     onChangeText={text => this.setState(
                         { password: text }

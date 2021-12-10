@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { Input } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default class Signup extends Component {
     constructor(props) {
         super();
@@ -12,33 +14,48 @@ export default class Signup extends Component {
               password: '',
               userName: ''
         };
-        auth().onAuthStateChanged((user) => {
-            if (user) {
-                console.log('User display name: ', user.displayName);
-            }
-        });
+         
+         
+    }
+    clearText = () => {
+        this.setState({ email: '' })
+        this.setState({ password: '' })
+        this.setState({ userName: '' })
     }
 
     registerUser = () => {
         auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((createdUser) => {
-                createdUser.user.updateProfile({
+            .createUserWithEmailAndPassword(this.state.email, this.state.password,)
+            .then(async (createdUser) => { 
+               await createdUser.user.updateProfile({
                     displayName: this.state.userName
+                    
                 })
-                console.log('User account created & signed in!');
-                console.log(createdUser.userName);
-            })
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    console.log('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                    console.log('That email address is invalid!');
-                }
-
-                console.error(error);
+                auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        
+                        console.log('User display name: ', user.displayName);
+                        console.log(user);
+                        console.log('User account created & signed in!');
+                        AsyncStorage.setItem('name', user.displayName);
+                        this.props.navigation.navigate('TabScreen')
+                        this.clearText();
+                        
+                    }
+                });
+              })
+            .catch(error => {   
+                switch(error.code) {
+                  case 'auth/email-already-in-use':
+                        Alert.alert('Email already in use please signin !')
+                        this.clearText();
+                        break;
+                        case 'auth/invalid-email':
+                            Alert.alert('That email address is invalid !')
+                            this.clearText();
+                            break;
+               }
+                // console.error(error);
             });
     }
     onGoogleButtonPress = async () => {
@@ -50,13 +67,22 @@ export default class Signup extends Component {
 
         // Sign-in the user with the credential
         const user = auth().signInWithCredential(googleCredential);
+        console.log('User account created & signed in!');  
         console.log((await user).user);
+
+        if ((await user).user.displayName != null) {
+            await AsyncStorage.setItem('name', (await user).user.displayName);
+            this.props.navigation.navigate('TabScreen')
+            console.log((await user).user.displayName);
+          } else {
+        }
+        
     }
 
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View>
+            <View style={styles.container}>
                 <Image
                     style={styles.tinyLogo}
                     source={require('../assets/Linkedin-Logo.png')}
@@ -86,19 +112,21 @@ export default class Signup extends Component {
                     placeholder="Username "
                     value={this.state.userName}
                       onChangeText={text => this.setState(
-                          {userName: text}
+                          {userName: text} 
                       )}
                 />
                 <Input style={styles.txtinput2}
                     placeholder="Password"
-                    secureTextEntry
+                    secureTextEntry={true}
                     value={this.state.password}
                      onChangeText={text => this.setState(
                           {password: text}
                       )}
                 // right={<TextInput.Icon name="eye" />}
                 />
-                <Button style={styles.btn1} onPress={this.registerUser}>
+                <Button style={styles.btn1} onPress={
+                    this.registerUser
+                    } >
                     <Text style={styles.txt1}>Continue</Text>
                 </Button>
                 <Text>

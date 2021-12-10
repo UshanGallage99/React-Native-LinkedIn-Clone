@@ -2,14 +2,38 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { Searchbar, Button } from 'react-native-paper';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
+ 
 
 export default class JobsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchQuery:''
+       
     };
   }
+
+  remove = async () => {
+    await AsyncStorage.removeItem('name');
+     
+  };
+
+  signOut = async () => {
+    try{
+    this.remove();
+    auth()
+      .signOut()
+      .then(
+        () => 
+        this.props.navigation.navigate('Signin')
+        // Alert.alert('Loged Out'),
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
 
   onChangeSearch(query) {
     setSearchQuery(query);
@@ -45,8 +69,8 @@ export default class JobsScreen extends Component {
           source={require('../SubScreens/banner1.png')}
           />
           <Text style={styles.txt4}>Ge4t notified when new jobs match your preferd title and location</Text>
-          <Button style={styles.btn1}   onPress={() => console.log('Pressed')}>
-            <Text style={styles.txt5}>Create Job Alert</Text>
+          <Button style={styles.btn1} onPress={() => this.signOut()}>
+            <Text style={styles.txt5}>SIGN OUT</Text>
           </Button>
           </View>
 
