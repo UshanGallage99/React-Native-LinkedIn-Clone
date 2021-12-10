@@ -1,81 +1,98 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import firestore from '@react-native-firebase/firestore';
 
 export default class MyNetworkScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchQuery:''
+      data: []
     };
   }
 
-  onChangeSearch(query) {
-    setSearchQuery(query);
+  componentDidMount() {
+    const subscriber = firestore()
+        .collection('networks')
+        .onSnapshot(querySnapshot => {
+            const networks = [];
+            // console.log(customers);
+
+            querySnapshot.forEach(documentSnapshot => {
+              networks.push({
+                    name: documentSnapshot.data().name,
+                    institute: documentSnapshot.data().institute,
+                    position: documentSnapshot.data().position,
+                    key: documentSnapshot.id,
+                });
+            });
+
+            this.setState({
+                data: networks
+            })
+             
+        });
 }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-      <Image
-      style={styles.img1}
-      source={require('../SubScreens/user.png')}
-      />
-      <Searchbar
-      style={styles.searchbar}
-      placeholder="Search"
-      onChangeText={this.onChangeSearch}
-      value={this.state.searchQuery}
-      />
-      <AwesomeIcon style={styles.icon1}  name="comment-dots" color={'#666666'} size={30} />
-      <ScrollView>
-
-      <View style={styles.view1}>
-      <TouchableOpacity>
+       <View style={styles.view}>
+        <Image
+        style={styles.img1}
+        source={require('../SubScreens/user.png')} 
+        />
+       
+        <Searchbar
+        style={styles.searchbar}
+        placeholder="Search"
+        onChangeText={this.onChangeSearch}
+        value={this.state.searchQuery} 
+        />   
+        <AwesomeIcon style={styles.icon1}  name="comment-dots"  color={'#666666'} size={25} />
+        <TouchableOpacity>
         <Text style={styles.txt1}>Manage my network</Text>
-        <AwesomeIcon style={styles.icon2}  name="chevron-right" color={'#666666'} size={20} />
-      </TouchableOpacity>
-      </View>
-
+        <AwesomeIcon style={styles.icon2}  name="chevron-right" color={'#666666'} size={18} />
+        </TouchableOpacity>
+        </View>
+       
       <View style={styles.view2}>
       <TouchableOpacity>
         <Text style={styles.txt2}>Invitations</Text>
-        <AwesomeIcon style={styles.icon2}  name="chevron-right" color={'#666666'} size={20} />
+        <AwesomeIcon style={styles.icon2}  name="chevron-right" color={'#666666'} size={18} />
       </TouchableOpacity>
-
+      <Text>       
+      </Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
+      </View>
+      <FlatList
+        data={this.state.data}
+        renderItem={({ item }) => (
       <View style={styles.view3}>
       <Image
       style={styles.img2}
       source={require('../SubScreens/user.png')}
       />
-      <Text style={styles.txt3}>Jhon Doe</Text>
-      <Text style={styles.txt4}>Student at Cambridge..</Text>
-      <Text style={styles.txt5}>Cambridge University of..</Text>
+      <Text style={styles.txt3}>{item.name}</Text>
+      <Text style={styles.txt4}>{item.position}</Text>
+      <Text style={styles.txt5}>{item.institute}</Text>
       <AwesomeIcon style={styles.icon3}  name="building" color={'#666666'}  />
-      <TouchableOpacity style={styles.btn1}><AwesomeIcon style={styles.icon4}  name="check-circle" color={'#0A66C2'} size={38} /></TouchableOpacity>
-      <TouchableOpacity style={styles.btn2}><AwesomeIcon style={styles.icon5}  name="times-circle" color={'#666666'} size={38} /></TouchableOpacity>
+      <TouchableOpacity style={styles.btn1}><AwesomeIcon style={styles.icon4} name="times-circle" color={'#0A66C2'} size={38} /></TouchableOpacity>
+      <TouchableOpacity style={styles.btn2}><AwesomeIcon style={styles.icon5} name="check-circle"  color={'#666666'} size={38} /></TouchableOpacity>
       </View>
-
-      <View style={styles.view3}>
-      <Image
-      style={styles.img2}
-      source={require('../SubScreens/user.png')}
-      />
-      <Text style={styles.txt3}>Jhon Doe</Text>
-      <Text style={styles.txt4}>Student at Cambridge..</Text>
-      <Text style={styles.txt5}>Cambridge University of..</Text>
-      <AwesomeIcon style={styles.icon3}  name="building" color={'#666666'}  />
-      <TouchableOpacity style={styles.btn1}><AwesomeIcon style={styles.icon4}  name="check-circle" color={'#0A66C2'} size={38} /></TouchableOpacity>
-      <TouchableOpacity style={styles.btn2}><AwesomeIcon style={styles.icon5}  name="times-circle" color={'#666666'} size={38} /></TouchableOpacity>
+      )}
+         keyExtractor={(item) => {
+             item.key
+         }}
+       /> 
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
       </View>
+      
       </View>
-
-      <View style={styles.view4}>
-        <Text style={styles.txt6}>More Suggetions for you</Text>
-      </View>
-
-      </ScrollView>
+       
     </SafeAreaView>
     );
   }
@@ -87,27 +104,32 @@ const styles = StyleSheet.create({
       backgroundColor:'#E9E5DF',
       color:'#FEFEFE',
     },
+    view:{
+      backgroundColor:'#FFFFFF',
+      height:106
+    },
     img1:{
-        marginTop:10,
-        marginLeft:10,
-        width:40,
-        height:40
-    },
-    searchbar:{
-        width:250,
-        marginLeft:60,
-        marginTop:-40
-    },
+      marginTop:10,
+      marginLeft:10,
+      width:30,
+      height:30
+  },
+  searchbar:{
+    backgroundColor: '#EEF3F7',
+    width:295,
+    height: 40,
+    marginLeft:60,
+    marginTop:-35
+  },
     icon1:{
-       marginLeft:323,
-       marginTop:-40
+      marginLeft:375,
+      marginTop:-35, 
     },
     txt1:{
-      fontSize:20,
-      fontWeight:'bold',
+      fontSize:17,
       color:'#0A66C2',
       marginLeft:15,
-      marginTop:13
+      marginTop:30
     },
     view1:{
       marginTop:18,
@@ -115,8 +137,8 @@ const styles = StyleSheet.create({
       height:55
     },
     icon2:{
-      marginLeft:333,
-      marginTop:-22
+      marginLeft:380,
+      marginTop:-18
     },
     view2:{
       marginTop:10,
@@ -124,15 +146,14 @@ const styles = StyleSheet.create({
       height:225
     },
     txt2:{
-      fontSize:19,
-      fontWeight:'bold',
+      fontSize:17,
       color:'#0A66C2',
       marginLeft:15,
-      marginTop:15
+      marginTop:17
     },
     view3:{
       marginTop:5,
-      backgroundColor:'#D1DBE4',
+      backgroundColor:'#ffffff',
       height:85
     },
     img2:{
@@ -142,7 +163,7 @@ const styles = StyleSheet.create({
         height:60
     },
     txt3:{
-      fontWeight:'bold',
+      fontSize:17,
       color:'#232325',
       marginLeft:77,
       marginTop:-62
@@ -161,7 +182,7 @@ const styles = StyleSheet.create({
       
       width:40,
       height:40,
-      marginLeft:257,
+      marginLeft:308,
       marginTop:-45,
       borderRadius:100,
     },
@@ -173,13 +194,13 @@ const styles = StyleSheet.create({
      
       width:40,
       height:40,
-      marginLeft:307,
+      marginLeft:350,
       marginTop:-40,
       borderRadius:100,
     },
     icon5:{
       alignSelf:'center',
-      // marginTop:20
+       
     },
     view4:{
       marginTop:10,
