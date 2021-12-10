@@ -21,11 +21,14 @@ export default class HomeScreen extends Component {
         .collection('customers')
         .onSnapshot(querySnapshot => {
             const customers = [];
+            // console.log(customers);
 
             querySnapshot.forEach(documentSnapshot => {
                 customers.push({
                     name: documentSnapshot.data().name,
-                    address: documentSnapshot.data().address,
+                    desc: documentSnapshot.data().desc,
+                    date: documentSnapshot.data().date,
+                    imageUrl: documentSnapshot.data().imageUrl,
                     key: documentSnapshot.id,
                 });
             });
@@ -33,6 +36,7 @@ export default class HomeScreen extends Component {
             this.setState({
                 data: customers
             })
+             
         });
 }
 
@@ -63,12 +67,30 @@ export default class HomeScreen extends Component {
           style={styles.userimg}
           source={require('../SubScreens/user.png')} 
           />
+          <View style ={{ 
+            marginTop:-14, 
+            marginLeft:6,
+          }}>
           <Text style={styles.txt1}>{item.name}</Text>
+          <Text style ={{
+            marginLeft:53,
+            marginTop:0,
+            fontSize:12,
+            color:'#666666',
+          }}>1,800 followers</Text>
+          <Text style ={{
+            marginLeft:53,
+            marginTop:0,
+            fontSize:12,
+            color:'#666666',
+          }}>{item.date}</Text>
+          <AwesomeIcon style={styles.worldicn} name="globe-americas"  color={'#666666'} size={12}/>
+          </View>
           <FeatherIcon style={styles.icon2}  name="more-vertical"  color={'#666666'} size={21} />
-          <Text style={styles.txt2}> {item.address}</Text>
+          <Text style={styles.txt2}> {item.desc}</Text>
           <Image
           style={styles.img2}
-          source={require('../SubScreens/banner1.png')}
+          source={{uri:item.imageUrl}}
           />
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
@@ -122,10 +144,10 @@ const styles = StyleSheet.create({
           height:30
       },
       userimg:{
-        marginTop:10,
-          marginLeft:10,
-          width:35,
-          height:35
+        marginTop:15,
+        marginLeft:10,
+        width:42,
+        height:42
       },
       like:{
         marginTop:8,
@@ -166,13 +188,19 @@ const styles = StyleSheet.create({
       },
       icon2:{
         marginLeft:380,
-        marginTop:-20,
+        marginTop:-40,
          
      },
       txt1:{
         marginLeft:53,
         marginTop:-33,
         fontSize:15,
+        color:'#202124',
+      },
+      txt3:{
+        // marginLeft:53,
+        // marginTop:-33,
+        fontSize:10,
         color:'#202124',
       },
       img2:{
@@ -182,9 +210,9 @@ const styles = StyleSheet.create({
         alignSelf:'center'
       },
       txt2:{
-        marginLeft:15,
+        marginLeft:10,
         marginRight:10,
-        marginTop:20,
+        marginTop:30,
         fontSize:13,
         color:'#202124',
       },
@@ -199,5 +227,9 @@ const styles = StyleSheet.create({
       txt3:{
         fontSize:17,
         color:'white'
+    },
+    worldicn:{
+      marginTop:-15,
+      marginLeft:125,
     },
 })

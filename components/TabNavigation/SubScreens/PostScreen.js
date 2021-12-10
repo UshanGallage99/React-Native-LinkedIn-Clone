@@ -11,6 +11,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+import { format } from "date-fns";
 export default class PostScreen extends Component {
   constructor(props) {
     super(props);
@@ -19,12 +21,23 @@ export default class PostScreen extends Component {
       name: '',
       imagePath: '',
       imageName: '',
-      imageUrl: ''
+      imageUrl: '',
+      desc:'',
+      date:''
     };
   }
 
   componentDidMount() {
     this.getData()
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+      let today = new Date();
+      let date=today.getDate()+" "+monthNames[today.getMonth()] +" "+ today.getFullYear();
+      this.setState({
+      date: date,
+       
+   })
   }
 
   getData = async () => {
@@ -37,6 +50,41 @@ export default class PostScreen extends Component {
       console.log(e);
     }
   }
+
+  savePost = () =>{
+    
+    firestore()
+        .collection('customers')
+        .add({
+            name: this.state.name,
+            desc: this.state.desc,
+            date: this.state.date,
+            imageUrl: this.state.imageUrl,
+
+        })
+        .then(() => {
+            console.log('User added!');
+            
+            this.setState({
+                desc:'',
+                date:'',
+                 
+            })
+        });
+}
+
+UploadImage = async () => {
+  const fileName = this.state.imageName + ".jpg";
+  const reference = storage().ref(`images/${fileName}`);
+  await reference.putFile(this.state.imagePath);
+  const url = await storage().ref(`images/${fileName}`).getDownloadURL();
+  this.setState({
+    imageUrl:  url,
+     
+ })
+  console.log(url);
+  // console.log(imageUrl);
+}
 
   getimageFromGallery = () => {
             ImagePicker.openPicker({
@@ -52,7 +100,7 @@ export default class PostScreen extends Component {
                     imageName: image.modificationDate
                 })
     
-                // this.UploadImage()
+                this.UploadImage();
             });
         }
 
@@ -70,9 +118,11 @@ export default class PostScreen extends Component {
           Share post
         </Text>
 
+        <TouchableOpacity onPress={this.savePost}>
         <Text style={styles.post}>
            post
-        </Text>  
+        </Text>
+        </TouchableOpacity>  
         </View>
         <ScrollView >
           <View style={styles.view1}>
@@ -92,7 +142,13 @@ export default class PostScreen extends Component {
             multiline={true}
             numberOfLines={5}
             placeholder= 'What do you want to talk about?'
-            style={styles.txt2}/>
+            style={styles.txt2}
+            value={this.state.desc}
+                      onChangeText={text => this.setState(
+                          {desc: text} 
+                      )}>
+               
+            </TextInput>
           {/* <Image
             style={styles.img2}
             source={require('../SubScreens/user.png')}
