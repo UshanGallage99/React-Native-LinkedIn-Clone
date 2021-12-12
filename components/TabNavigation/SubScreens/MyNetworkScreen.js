@@ -81,15 +81,17 @@ export default class MyNetworkScreen extends Component {
       <AwesomeIcon style={styles.icon3}  name="building" color={'#666666'}  />
       <TouchableOpacity style={styles.btn1}><AwesomeIcon style={styles.icon4} name="times-circle" color={'#0A66C2'} size={38} /></TouchableOpacity>
       <TouchableOpacity style={styles.btn2}><AwesomeIcon style={styles.icon5} name="check-circle"  color={'#666666'} size={38} /></TouchableOpacity>
+      <Text></Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
+      </View>
       </View>
       )}
          keyExtractor={(item) => {
              item.key
          }}
        /> 
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{flex: 1, height: 1.3, backgroundColor: '#D3D3D3'}}/>
-      </View>
+     
       
       </View>
        
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     view2:{
       marginTop:10,
       backgroundColor:'#FFFFFF',
-      height:225
+      // height:225
     },
     txt2:{
       fontSize:17,

@@ -35,9 +35,7 @@ export default class JobsScreen extends Component {
   };
 
 
-  onChangeSearch(query) {
-    setSearchQuery(query);
-}
+   
 
   render() {
     return (
@@ -46,35 +44,35 @@ export default class JobsScreen extends Component {
       style={styles.img1}
       source={require(' ../SubScreens/user.png')}
       /> */}
-      <Searchbar
+      {/* <Searchbar
       style={styles.searchbar}
       placeholder="Search"
       onChangeText={this.onChangeSearch}
       value={this.state.searchQuery}
-      />
-      <AwesomeIcon style={styles.icon1}  name="comment-dots" color={'#666666'} size={30} />
+      /> */}
+      {/* <AwesomeIcon style={styles.icon1}  name="comment-dots" color={'#666666'} size={30} /> */}
       <ScrollView>
 
-      <View style={styles.view1}>
+      {/* <View style={styles.view1}>
       <TouchableOpacity>
         <Text style={styles.txt1}>My Jobs</Text>
         <Text style={styles.txt2}>See all (0)</Text>
       </TouchableOpacity>
-      </View>
+      </View> */}
 
-      <View style={styles.view2}>
-          <Text style={styles.txt3}>Land your dream role</Text>
-          <Image
+      {/* <View style={styles.view2}> */}
+          {/* <Text style={styles.txt3}>Land your dream role</Text> */}
+          {/* <Image
           style={styles.img2}
           source={require('../SubScreens/banner1.png')}
-          />
-          <Text style={styles.txt4}>Ge4t notified when new jobs match your preferd title and location</Text>
+          /> */}
+          {/* <Text style={styles.txt4}>Ge4t notified when new jobs match your preferd title and location</Text> */}
           <Button style={styles.btn1} onPress={() => this.signOut()}>
             <Text style={styles.txt5}>SIGN OUT</Text>
           </Button>
-          </View>
+          {/* </View> */}
 
-          <View style={styles.view3}>
+          {/* <View style={styles.view3}>
           <Text style={styles.txt3}>Recomended for you</Text>
           <View>
 
@@ -94,8 +92,8 @@ export default class JobsScreen extends Component {
             <Text>  Easy Apply</Text>
           </Text>
           <AwesomeIcon style={styles.icon2}  name="bookmark" color={'#666666'} size={20} />
-          </View>
-          </View>
+          </View> 
+          </View>*/}
 
       </ScrollView>
     </SafeAreaView>
@@ -108,6 +106,7 @@ const styles = StyleSheet.create({
       flex:1,
       backgroundColor:'#E9E5DF',
       color:'#FEFEFE',
+       
     },
     img1:{
         marginTop:10,
@@ -168,12 +167,13 @@ const styles = StyleSheet.create({
       color:'#202124',
     },
     btn1:{
-      marginTop:10,
+      marginTop:320,
       backgroundColor:'#0A66C2',
       width: 310,
       height: 40,
       alignSelf:'center',
-      borderRadius:30
+      borderRadius:30,
+       
     },
     txt5:{
       fontSize:17,

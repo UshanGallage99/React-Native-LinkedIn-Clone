@@ -68,7 +68,8 @@ export default class PostScreen extends Component {
             this.setState({
                 desc:'',
                 date:'',
-                 
+                imageUrl:'',
+                
             })
         });
 }
@@ -149,10 +150,10 @@ UploadImage = async () => {
                       )}>
                
             </TextInput>
-          {/* <Image
+          <Image
             style={styles.img2}
-            source={require('../SubScreens/user.png')}
-          /> */}
+            source={{uri:this.state.imageUrl}}
+          />
           </View> 
         </ScrollView>
 
